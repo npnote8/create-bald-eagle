@@ -6,18 +6,21 @@ function App() {
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve({
-          data: {
-            todoList: JSON.parse(localStorage.getItem("savedTodoList")) || [],
-          },
-        });
-      }, 2000);
-    }).then((result) => {
-      setTodoList([...result.data.todoList]);
-      setIsLoading(false);
-    });
+    fetch(
+      `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/Default`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_API_KEY}`,
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        console.log("result", result);
+        setTodoList([...result.records]);
+        setIsLoading(false);
+      });
   }, []);
 
   useEffect(() => {
@@ -26,14 +29,65 @@ function App() {
     }
   }, [todoList, isLoading]);
 
+  const deleteTodo = async (id) => {
+    let response;
+    try {
+      response = await fetch(
+        `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/Default/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_API_KEY}`,
+          },
+        }
+      );
+      return response.json();
+    } catch (err) {
+      console.log("err:", err);
+    }
+  };
+
   const removeTodo = (id) => {
     const filterestTodoList = todoList.filter((item) => item.id !== id);
     console.log("aaaaaa", filterestTodoList);
-    setTodoList(filterestTodoList);
+    deleteTodo(id).then(() => setTodoList(filterestTodoList));
+  };
+
+  const postTodo = async (newTodo) => {
+    const payload = {
+      records: [
+        {
+          fields: {
+            Title: newTodo["title"],
+          },
+        },
+      ],
+    };
+
+    let response;
+    try {
+      response = await fetch(
+        `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/Default`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_API_KEY}`,
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+      return response.json();
+    } catch (err) {
+      console.log("err:", err);
+    }
   };
 
   const addTodo = (newTodo) => {
-    setTodoList([...todoList, newTodo]);
+    console.log("addTodo", [...todoList, newTodo]);
+    postTodo(newTodo).then((result) =>
+      setTodoList([...todoList, ...result.records])
+    );
   };
 
   return (
