@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
-import TodoList from "./TodoList";
-import AddTodoForm from "./AddTodoForm";
+import TodoList from "./components/TodoList";
+import AddTodoForm from "./components/AddTodoForm";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import style from "./App.module.css";
 function App() {
