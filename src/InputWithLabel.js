@@ -1,4 +1,6 @@
 import React from "react";
+import style from "./InputWithLabel.module.css";
+
 const InputWithLabel = ({ todoTitle, handleTitleChange, children }) => {
   const inputRef = React.useRef();
   React.useEffect(() => {
@@ -6,7 +8,9 @@ const InputWithLabel = ({ todoTitle, handleTitleChange, children }) => {
   }, [todoTitle]);
   return (
     <React.Fragment>
-      <label htmlFor="todoTitle">{children}</label>
+      <label htmlFor="todoTitle" className={style.label}>
+        {children}
+      </label>
       &nbsp;
       <input
         type="text"
@@ -15,6 +19,8 @@ const InputWithLabel = ({ todoTitle, handleTitleChange, children }) => {
         value={todoTitle}
         onChange={handleTitleChange}
         ref={inputRef}
+        className={style.searchBox}
+        placeholder="Enter text here..."
       />
     </React.Fragment>
   );

@@ -1,0 +1,30 @@
+.ListItem {
+  grid-column: 1 / span 6;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #333333;
+  margin: 5px;
+}
+.parent {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+}
+.parent li {
+  list-style-type: none;
+  color: rgb(255, 255, 255);
+  text-align: center;
+}
+
+.buttonRemove:hover {
+  background: white;
+}
+.buttonRemove {
+  cursor: pointer;
+  transition: all 0.1s ease-in;
+  background: #edf907;
+  color: #171212;
+  margin: 10px;
+  padding: 10px;
+  border: 2px solid #edf907;
+  border-radius: 10px;
+}
