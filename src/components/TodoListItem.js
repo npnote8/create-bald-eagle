@@ -2,8 +2,7 @@ import React from "react";
 import style from "./TodoListItem.module.css";
 import PropTypes from "prop-types";
 
-const TodoListItem = ({ item, onRemoveTodo, index }) => {
-  console.log(index);
+const TodoListItem = ({ item, onRemoveTodo }) => {
   return (
     <li className={style.ListItem}>
       {item.fields.Title}

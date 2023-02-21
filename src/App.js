@@ -3,31 +3,27 @@ import TodoList from "./components/TodoList";
 import AddTodoForm from "./components/AddTodoForm";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import style from "./App.module.css";
+
 function App() {
-  const [order, setOrder] = useState(1); //-1 is descending
+  const [order, setOrder] = useState(-1);
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  function handleClick() {
-    const ascending = -1;
-    const descending = 1;
-    const newOrder = order === ascending ? descending : ascending;
-    console.log("newOrder", newOrder);
-    const newTodoList = setOrder(newOrder);
-    console.log("currentToDoList", todoList);
-    sortTodoList(newOrder);
-
-    console.log("new_todoList", todoList);
-
-    setTodoList(newTodoList);
-    setIsLoading(false);
-  }
   const sortTodoList = (newOrder) => {
-    return [...todoList].sort(function (a, b) {
+    return [...todoList].sort(function (one, two) {
+      const a = one.fields.Title;
+      const b = two.fields.Title;
       if (a < b) return newOrder;
       else if (a === b) return 0;
       else return -1 * newOrder;
     });
   };
+  function handleClick() {
+    const newOrder = -1 * order;
+    setOrder(newOrder);
+    const newTodoList = sortTodoList(newOrder);
+    setTodoList(newTodoList);
+  }
+
   useEffect(() => {
     fetch(
       `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/Default?view=Grid%20view&sort[0][field]=Title&sort[0][direction]=asc`,
@@ -123,12 +119,14 @@ function App() {
               <div className={style.container}>
                 <h1>Todo List</h1>
                 <AddTodoForm onAddTodo={addTodo} />
+                <button onClick={handleClick} className={style.changeOrder}>
+                  Sort by Title
+                </button>
                 {isLoading ? (
                   <p>Loading...</p>
                 ) : (
                   <TodoList todoList={todoList} onRemoveTodo={removeTodo} />
                 )}
-                <button onClick={handleClick}>Change order</button>
               </div>
             </Fragment>
           }
