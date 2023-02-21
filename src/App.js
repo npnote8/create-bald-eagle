@@ -4,11 +4,33 @@ import AddTodoForm from "./components/AddTodoForm";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import style from "./App.module.css";
 function App() {
+  const [order, setOrder] = useState(1); //-1 is descending
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  function handleClick() {
+    const ascending = -1;
+    const descending = 1;
+    const newOrder = order === ascending ? descending : ascending;
+    console.log("newOrder", newOrder);
+    const newTodoList = setOrder(newOrder);
+    console.log("currentToDoList", todoList);
+    sortTodoList(newOrder);
+
+    console.log("new_todoList", todoList);
+
+    setTodoList(newTodoList);
+    setIsLoading(false);
+  }
+  const sortTodoList = (newOrder) => {
+    return [...todoList].sort(function (a, b) {
+      if (a < b) return newOrder;
+      else if (a === b) return 0;
+      else return -1 * newOrder;
+    });
+  };
   useEffect(() => {
     fetch(
-      `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/Default`,
+      `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/Default?view=Grid%20view&sort[0][field]=Title&sort[0][direction]=asc`,
       {
         method: "GET",
         headers: {
@@ -18,7 +40,6 @@ function App() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log("result", result);
         setTodoList([...result.records]);
         setIsLoading(false);
       });
@@ -107,6 +128,7 @@ function App() {
                 ) : (
                   <TodoList todoList={todoList} onRemoveTodo={removeTodo} />
                 )}
+                <button onClick={handleClick}>Change order</button>
               </div>
             </Fragment>
           }

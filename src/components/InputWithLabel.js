@@ -21,7 +21,7 @@ const InputWithLabel = ({ todoTitle, handleTitleChange, children }) => {
         onChange={handleTitleChange}
         ref={inputRef}
         className={style.searchBox}
-        placeholder="Enter text here..."
+        placeholder="Add a new Todo"
       />
     </React.Fragment>
   );
