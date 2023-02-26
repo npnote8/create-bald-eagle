@@ -1,13 +1,14 @@
 import React, { Fragment, useEffect, useState } from "react";
 import TodoList from "./components/TodoList";
 import AddTodoForm from "./components/AddTodoForm";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 import style from "./App.module.css";
 
 function App() {
   const [order, setOrder] = useState(-1);
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
   const sortTodoList = (newOrder) => {
     return [...todoList].sort(function (one, two) {
       const a = one.fields.Title;
@@ -77,6 +78,7 @@ function App() {
         {
           fields: {
             Title: newTodo["title"],
+            DueDate: newTodo["duedate"],
           },
         },
       ],
@@ -103,36 +105,53 @@ function App() {
 
   const addTodo = (newTodo) => {
     console.log("addTodo", [...todoList, newTodo]);
+
     postTodo(newTodo).then((result) =>
       setTodoList([...todoList, ...result.records])
+    );
+  };
+  const addDueDate = (newDueDate) => {
+    console.log("addDate", [...todoList, newDueDate]);
+    postTodo(newDueDate).then((result) =>
+      setTodoList([...todoList, ...result.records.DueDate])
     );
   };
 
   return (
     <BrowserRouter>
-      <Routes>
-        <Route
-          exact
-          path="/"
-          element={
-            <Fragment>
-              <div className={style.container}>
-                <h1>Todo List</h1>
-                <AddTodoForm onAddTodo={addTodo} />
-                <button onClick={handleClick} className={style.changeOrder}>
-                  Sort by Title
-                </button>
-                {isLoading ? (
-                  <p>Loading...</p>
-                ) : (
-                  <TodoList todoList={todoList} onRemoveTodo={removeTodo} />
-                )}
-              </div>
-            </Fragment>
-          }
-        />
-        <Route path="/new" element={<h1>New Todo List</h1>} />
-      </Routes>
+      <div className="App">
+        <nav className="nav">
+          <Link to="/" className={style.navItem}>
+            Todo List
+          </Link>
+          <Link to="/outdated" className={style.navItem}>
+            Outdated
+          </Link>
+        </nav>
+        <Routes>
+          <Route
+            exact
+            path="/"
+            element={
+              <Fragment>
+                <div className={style.container}>
+                  <h1>Todo List</h1>
+                  <AddTodoForm onAddTodo={addTodo} addDueDate={addDueDate} />
+                  <button onClick={handleClick} className={style.changeOrder}>
+                    Sort by Title
+                  </button>
+                  {isLoading ? (
+                    <p>Loading...</p>
+                  ) : (
+                    <TodoList todoList={todoList} onRemoveTodo={removeTodo} />
+                  )}
+                </div>
+              </Fragment>
+            }
+          />
+          <Route path="/outdated" element={<h1>Outdated</h1>} />
+        </Routes>
+      </div>
     </BrowserRouter>
   );
 }
