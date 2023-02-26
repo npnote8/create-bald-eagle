@@ -1,11 +1,12 @@
 import React from "react";
 import TodoListItem from "./TodoListItem";
 import PropTypes from "prop-types";
+import style from "./TodoList.module.css";
 
 const TodoList = ({ todoList, onRemoveTodo }) => {
   return (
-    <ul>
-      {todoList.map((item) => (
+    <ul className={style.parent}>
+      {todoList.map((item, index) => (
         <TodoListItem key={item.id} item={item} onRemoveTodo={onRemoveTodo} />
       ))}
     </ul>

@@ -1,0 +1,8 @@
+.parent {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  line-height: 150px;
+  column-gap: 20px;
+  row-gap: 20px;
+}

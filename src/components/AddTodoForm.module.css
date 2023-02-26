@@ -5,12 +5,12 @@
   background: #333333;
   padding: 1rem;
   border: 1px solid #333333;
+  border-radius: 10px;
 }
 .submitForm {
   display: inline-flex;
   border-radius: 10px;
-  border: 2px solid #0a0a0a;
+  /* border: 2px solid #0a0a0a; */
   overflow: hidden;
-  margin-left: 50px;
   align-items: baseline;
 }
