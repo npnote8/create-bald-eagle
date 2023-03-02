@@ -1,0 +1,27 @@
+.List {
+  display: flex;
+  gap: 30px;
+  list-style-type: none;
+}
+
+.Nav {
+  background-color: #333333;
+  display: flex;
+  align-items: center;
+}
+li > a {
+  display: inline-flex;
+  color: white;
+  font-family: "Jua", sans-serif;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+.ItemLogo {
+  display: inline-flex;
+  padding: 10px;
+}
+
+.active > a {
+  color: #6ec2cb;
+}

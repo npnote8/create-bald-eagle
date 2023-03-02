@@ -3,26 +3,13 @@ import TodoList from "./components/TodoList";
 import AddTodoForm from "./components/AddTodoForm";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import style from "./App.module.css";
+import TodoListOutdated from "./components/TodoListOutdated";
+import Navbar from "./components/Navbar";
+import Homepage from "./components/Homepage";
 
 function App() {
-  const [order, setOrder] = useState(-1);
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const sortTodoList = (newOrder) => {
-    return [...todoList].sort(function (one, two) {
-      const a = one.fields.Title;
-      const b = two.fields.Title;
-      if (a < b) return newOrder;
-      else if (a === b) return 0;
-      else return -1 * newOrder;
-    });
-  };
-  function handleClick() {
-    const newOrder = -1 * order;
-    setOrder(newOrder);
-    const newTodoList = sortTodoList(newOrder);
-    setTodoList(newTodoList);
-  }
 
   useEffect(() => {
     fetch(
@@ -77,6 +64,7 @@ function App() {
         {
           fields: {
             Title: newTodo["title"],
+            DueDate: newTodo["duedate"],
           },
         },
       ],
@@ -103,35 +91,89 @@ function App() {
 
   const addTodo = (newTodo) => {
     console.log("addTodo", [...todoList, newTodo]);
+
     postTodo(newTodo).then((result) =>
       setTodoList([...todoList, ...result.records])
     );
   };
 
+  const putTodo = async (id, payload) => {
+    let response;
+    try {
+      response = await fetch(
+        `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/Default/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_API_KEY}`,
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+      return response.json();
+    } catch (err) {
+      console.log("err:", err);
+    }
+  };
+
+  const updateTodo = (todo) => {
+    const todoClone = structuredClone(todo);
+    delete todoClone.id;
+    delete todoClone.createdTime;
+
+    putTodo(todo.id, todoClone).then((todoItem) => {
+      const newTodoList = todoList.map((obj) =>
+        obj.id === todoItem.id ? todoItem : obj
+      );
+      setTodoList([...newTodoList]);
+    });
+  };
+
   return (
     <BrowserRouter>
+      <Navbar />
+
       <Routes>
+        <Route path="/" element={<Homepage />} />
         <Route
           exact
-          path="/"
+          path="/todolist"
           element={
             <Fragment>
               <div className={style.container}>
                 <h1>Todo List</h1>
                 <AddTodoForm onAddTodo={addTodo} />
-                <button onClick={handleClick} className={style.changeOrder}>
-                  Sort by Title
-                </button>
+
                 {isLoading ? (
                   <p>Loading...</p>
                 ) : (
-                  <TodoList todoList={todoList} onRemoveTodo={removeTodo} />
+                  <TodoList
+                    todoList={todoList}
+                    setTodoList={setTodoList}
+                    onRemoveTodo={removeTodo}
+                    onImportantTodo={updateTodo}
+                  />
                 )}
               </div>
             </Fragment>
           }
         />
-        <Route path="/new" element={<h1>New Todo List</h1>} />
+        <Route
+          path="/outdated"
+          element={
+            <Fragment>
+              <div className={style.container}>
+                <h1>Outdated Todo</h1>
+                <TodoListOutdated
+                  todoList={todoList}
+                  onRemoveTodo={removeTodo}
+                  onImportantTodo={updateTodo}
+                />
+              </div>
+            </Fragment>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

@@ -1,8 +1,19 @@
-.parent {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-
-  line-height: 150px;
-  column-gap: 20px;
-  row-gap: 20px;
+table {
+  border: 5px solid #ffffff;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
+}
+table tr {
+  background-color: #f8f8f8;
+  border: 2px solid rgb(213, 212, 212);
+  font-family: "Josefin Sans", cursive;
+}
+table th {
+  font-size: 0.85em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: "Jua", sans-serif;
 }

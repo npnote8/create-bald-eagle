@@ -15,13 +15,8 @@ h1 {
   letter-spacing: 1px;
   font-family: "Fredoka One", cursive;
 }
-
-p {
-  padding-left: 50px;
-}
-.changeOrder {
-  display: block;
-  margin: 50px;
-  border-radius: 10px;
-  line-height: 30px;
+h2 {
+  font-size: 25px;
+  font-weight: 100;
+  font-family: "Jua", sans-serif;
 }
