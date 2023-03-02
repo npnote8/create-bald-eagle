@@ -10,7 +10,7 @@
 .submitForm {
   /* display: inline-flex; */
   border-radius: 10px;
-  /* border: 2px solid #0a0a0a; */
   overflow: hidden;
   align-items: baseline;
+  margin: 40px;
 }

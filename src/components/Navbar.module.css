@@ -1,0 +1,27 @@
+.List {
+  display: flex;
+  gap: 30px;
+}
+
+.Nav {
+  background-color: #333333;
+  display: flex;
+  align-items: center;
+}
+ul li > a {
+  display: inline-flex;
+  color: white;
+  font-family: "Jua", sans-serif;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+.ItemLogo {
+  display: inline-flex;
+  padding: 15px;
+}
+
+ul li > a:active {
+  color: yellow;
+  font-size: 150%;
+}

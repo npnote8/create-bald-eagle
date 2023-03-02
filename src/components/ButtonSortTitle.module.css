@@ -1,0 +1,7 @@
+.changeOrder {
+  /* display: block; */
+  display: inline;
+  margin: 10px;
+  border-radius: 10px;
+  line-height: 15px;
+}

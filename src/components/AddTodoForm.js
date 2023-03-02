@@ -3,7 +3,7 @@ import InputWithLabel from "./InputWithLabel";
 import style from "./AddTodoForm.module.css";
 import PropTypes from "prop-types";
 
-const AddTodoForm = ({ onAddTodo, addDueDate }) => {
+const AddTodoForm = ({ onAddTodo }) => {
   const [todoTitle, setTodoTitle] = useState("");
   const [dueDate, setDueDate] = useState("");
   const handleTitleChange = (event) => {
@@ -12,26 +12,38 @@ const AddTodoForm = ({ onAddTodo, addDueDate }) => {
   };
   const handleDateChange = (event) => {
     const newDueDate = event.target.value;
-    console.log(newDueDate);
     setDueDate(newDueDate);
   };
   const handleAddTodo = (event) => {
     event.preventDefault();
-    onAddTodo({ id: Date.now(), title: todoTitle, duedate: dueDate });
-
-    setTodoTitle("");
-    setDueDate("");
+    if (dueDate) {
+      onAddTodo({ id: Date.now(), title: todoTitle, duedate: dueDate });
+      setTodoTitle("");
+      setDueDate("");
+    } else {
+      alert("Enter valid Date");
+    }
   };
   return (
     <form onSubmit={handleAddTodo} className={style.submitForm}>
       <InputWithLabel
-        todoTitle={todoTitle}
-        handleTitleChange={handleTitleChange}
-        dueDate={dueDate}
-        handleDateChange={handleDateChange}
-      >
-        <strong>Title:</strong>
-      </InputWithLabel>
+        label="Title"
+        handleChange={handleTitleChange}
+        type="text"
+        id="todoTitle"
+        name="title"
+        value={todoTitle}
+        placeholder="Add a new Todo"
+        isFocused
+      />
+      <InputWithLabel
+        label="Due Date"
+        handleChange={handleDateChange}
+        type="date"
+        id="duedate"
+        name="Due Date"
+        value={dueDate}
+      />
       &nbsp;
       <input type="submit" className={style.buttonAdd} value="Add" />
     </form>

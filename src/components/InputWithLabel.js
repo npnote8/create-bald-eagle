@@ -3,51 +3,49 @@ import style from "./InputWithLabel.module.css";
 import PropTypes from "prop-types";
 
 const InputWithLabel = ({
-  todoTitle,
-  handleTitleChange,
-  children,
-  dueDate,
-  handleDateChange,
+  label,
+  handleChange,
+  type,
+  id,
+  name,
+  value,
+  placeholder,
+  isFocused,
 }) => {
   const inputRef = React.useRef();
   React.useEffect(() => {
-    inputRef.current.focus();
-  }, []);
+    if (isFocused) {
+      inputRef.current.focus();
+    }
+  }, [value, isFocused]);
   return (
     <React.Fragment>
-      <label htmlFor="todoTitle" className={style.label}>
-        Title
+      <label htmlFor={name} className={style.label}>
+        {label}
       </label>
       &nbsp;
       <input
-        type="text"
-        id="todoTitle"
-        name="title"
-        value={todoTitle}
-        onChange={handleTitleChange}
+        value={value}
+        id={id}
+        type={type}
+        name={name}
+        onChange={handleChange}
         ref={inputRef}
         className={style.searchBox}
-        placeholder="Add a new Todo"
-      />
-      <label htmlFor="todoTitle" className={style.label}>
-        Due Date
-      </label>
-      &nbsp;
-      <input
-        type="date"
-        id="duedate"
-        name="DueDate"
-        value={dueDate}
-        onChange={handleDateChange}
-        ref={inputRef}
-        className={style.searchBox}
+        placeholder={placeholder}
+        // autoFocus={isFocused}
       />
     </React.Fragment>
   );
 };
 InputWithLabel.propTypes = {
-  todoTitle: PropTypes.string,
-  handleTitleChange: PropTypes.func,
+  label: PropTypes.string,
+  handleChange: PropTypes.func,
+  type: PropTypes.string,
+  id: PropTypes.string,
+  name: PropTypes.string,
+  value: PropTypes.string,
+  placeholder: PropTypes.string,
   children: PropTypes.object,
 };
 export default InputWithLabel;

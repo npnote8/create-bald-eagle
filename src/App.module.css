@@ -15,29 +15,42 @@ h1 {
   letter-spacing: 1px;
   font-family: "Fredoka One", cursive;
 }
+h2 {
+  font-size: 25px;
+  font-weight: 100;
+  font-family: "Jua", sans-serif;
+}
 
-p {
-  padding-left: 50px;
-}
-.changeOrder {
-  display: block;
-  margin: 50px;
-  border-radius: 10px;
-  line-height: 30px;
-}
-nav {
-  background-color: white;
-  display: flex;
-
-  justify-content: left;
-}
 .navItem {
   display: inline-block;
-  color: black;
+  color: white;
   text-decoration: none;
-  padding: 20px;
-  font-size: 18px;
-  margin: 0px 25px;
+  padding: 25px;
+  font-size: 20px;
+  font-family: "Jua", sans-serif;
+}
+
+.navItemLogo:hover,
+.navItem:hover {
+  background-color: black;
+}
+
+.navItemLogo {
+  display: inline-block;
+  padding: 15px;
+}
+
+.buttonStart {
+  display: block;
+  cursor: pointer;
+  transition: all 0.1s ease-in;
+  background: #333333;
+  color: white;
+  padding: 10px;
+  border: 2px solid #333333;
   border-radius: 10px;
-  font-family: "Fredoka One", cursive;
+  margin: 20px auto;
+  font-size: 20px;
+  font-family: "Jua", sans-serif;
+  letter-spacing: 1px;
 }
