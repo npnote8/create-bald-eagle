@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import style from "./ButtonSortDate.module.css";
+import style from "./ButtonSortTitle.module.css";
 import { ReactComponent as ArrowBlack } from "./assets/arrow-black.svg";
+import PropTypes from "prop-types";
+
 const ButtonSortDate = ({ todoList, setTodoList }) => {
   const [order, setOrder] = useState(-1);
   const sortTodoList = (newOrder) => {
@@ -24,4 +26,10 @@ const ButtonSortDate = ({ todoList, setTodoList }) => {
     </button>
   );
 };
+
+ButtonSortDate.propTypes = {
+  todoList: PropTypes.array,
+  setTodoList: PropTypes.func,
+};
+
 export default ButtonSortDate;

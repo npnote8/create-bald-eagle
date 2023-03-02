@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import style from "./ButtonSortTitle.module.css";
 import { ReactComponent as ArrowBlack } from "./assets/arrow-black.svg";
+import PropTypes from "prop-types";
+
 const ButtonSortTitle = ({ todoList, setTodoList }) => {
   const [order, setOrder] = useState(-1);
   const sortTodoList = (newOrder) => {
@@ -23,5 +25,10 @@ const ButtonSortTitle = ({ todoList, setTodoList }) => {
       {<ArrowBlack height="15px" width="15px" />}
     </button>
   );
+};
+
+ButtonSortTitle.propTypes = {
+  todoList: PropTypes.array,
+  setTodoList: PropTypes.func,
 };
 export default ButtonSortTitle;

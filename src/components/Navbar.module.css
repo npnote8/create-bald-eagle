@@ -1,6 +1,7 @@
 .List {
   display: flex;
   gap: 30px;
+  list-style-type: none;
 }
 
 .Nav {
@@ -8,7 +9,7 @@
   display: flex;
   align-items: center;
 }
-ul li > a {
+li > a {
   display: inline-flex;
   color: white;
   font-family: "Jua", sans-serif;
@@ -18,10 +19,9 @@ ul li > a {
 
 .ItemLogo {
   display: inline-flex;
-  padding: 15px;
+  padding: 10px;
 }
 
-ul li > a:active {
-  color: yellow;
-  font-size: 150%;
+.active > a {
+  color: #6ec2cb;
 }

@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import moment from "moment";
 
 const TodoListItem = ({ item, onRemoveTodo, onImportantTodo }) => {
-  console.log(moment("2023-02-28"));
   const formatDate = (dt) => {
     const year = dt.substring(0, 4);
     const month = dt.substring(5, 7);
@@ -20,16 +19,10 @@ const TodoListItem = ({ item, onRemoveTodo, onImportantTodo }) => {
 
   return (
     <>
-      {/* <li className={style.ListItem}> */}
       <tr>
         <td> {item.fields.Title}</td>
-        {/* <td>{item.fields.DueDate}</td> */}
         <td>{formatDate(item.fields.DueDate)}</td>
-        <td>
-          {Math.ceil(
-            (Date.parse(item.fields.DueDate) - Date.now()) / (1000 * 3600 * 24)
-          )}
-        </td>
+        <td>{moment(item.fields.DueDate).diff(moment(), "days")}</td>
         <td>
           {item.fields.Important === true ? (
             <button
@@ -63,5 +56,6 @@ const TodoListItem = ({ item, onRemoveTodo, onImportantTodo }) => {
 TodoListItem.propTypes = {
   item: PropTypes.object,
   onRemoveTodo: PropTypes.func,
+  onImportantTodo: PropTypes.func,
 };
 export default TodoListItem;

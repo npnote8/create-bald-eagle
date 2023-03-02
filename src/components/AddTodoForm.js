@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import InputWithLabel from "./InputWithLabel";
 import style from "./AddTodoForm.module.css";
 import PropTypes from "prop-types";
+import moment from "moment";
 
 const AddTodoForm = ({ onAddTodo }) => {
   const [todoTitle, setTodoTitle] = useState("");
@@ -16,12 +17,12 @@ const AddTodoForm = ({ onAddTodo }) => {
   };
   const handleAddTodo = (event) => {
     event.preventDefault();
-    if (dueDate) {
+    if (dueDate && todoTitle && moment(dueDate).diff(moment(), "days") >= 0) {
       onAddTodo({ id: Date.now(), title: todoTitle, duedate: dueDate });
       setTodoTitle("");
       setDueDate("");
     } else {
-      alert("Enter valid Date");
+      alert("Enter valid Title and Due Date");
     }
   };
   return (

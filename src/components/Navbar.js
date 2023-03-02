@@ -5,7 +5,7 @@ export default function Navbar() {
   return (
     <nav className={style.Nav}>
       <Link to="/" className={style.ItemLogo}>
-        {<TickBlue height="40px" width="40px" />}
+        {<TickBlue height="35px" width="40px" />}
       </Link>
       <ul className={style.List}>
         <CustomLink to="/todolist">Todo List</CustomLink>
@@ -17,9 +17,8 @@ export default function Navbar() {
 function CustomLink({ to, children }) {
   const resolvedPath = useResolvedPath(to);
   const isActive = useMatch({ path: resolvedPath.pathname, end: true });
-  console.log("isActive", isActive);
   return (
-    <li className={isActive ? "active" : ""}>
+    <li className={isActive ? style.active : ""}>
       <Link to={to}>{children}</Link>
     </li>
   );

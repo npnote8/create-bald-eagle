@@ -1,19 +1,11 @@
 import React, { Fragment, useEffect, useState } from "react";
 import TodoList from "./components/TodoList";
 import AddTodoForm from "./components/AddTodoForm";
-import {
-  BrowserRouter,
-  Route,
-  Routes,
-  Link,
-  useNavigate,
-  useMatch,
-  useResolvedPath,
-} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import style from "./App.module.css";
 import TodoListOutdated from "./components/TodoListOutdated";
-
 import Navbar from "./components/Navbar";
+import Homepage from "./components/Homepage";
 
 function App() {
   const [todoList, setTodoList] = useState([]);
@@ -126,7 +118,6 @@ function App() {
   };
 
   const updateTodo = (todo) => {
-    console.log("updateTodo", todo);
     const todoClone = structuredClone(todo);
     delete todoClone.id;
     delete todoClone.createdTime;
@@ -138,40 +129,9 @@ function App() {
       setTodoList([...newTodoList]);
     });
   };
-  const Homepage = () => {
-    const navigate = useNavigate();
-
-    function handleClick() {
-      navigate("/todolist");
-    }
-    return (
-      <div className={style.container}>
-        <h2>This is the app to create Todo</h2>
-
-        <button
-          type="button"
-          className={style.buttonStart}
-          onClick={handleClick}
-        >
-          Start here
-        </button>
-      </div>
-    );
-  };
 
   return (
     <BrowserRouter>
-      {/* <nav>
-        <Link to="/" className={style.navItemLogo}>
-          {<TickBlue height="40px" width="40px" />}
-        </Link>
-        <Link to="/todolist" className={style.navItem}>
-          Todo List
-        </Link>
-        <Link to="/outdated" className={style.navItem}>
-          Outdated
-        </Link>
-      </nav> */}
       <Navbar />
 
       <Routes>

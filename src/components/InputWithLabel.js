@@ -33,7 +33,6 @@ const InputWithLabel = ({
         ref={inputRef}
         className={style.searchBox}
         placeholder={placeholder}
-        // autoFocus={isFocused}
       />
     </React.Fragment>
   );

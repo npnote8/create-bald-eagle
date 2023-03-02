@@ -1,13 +1,11 @@
 import React from "react";
 import TodoListItem from "./TodoListItem";
 import PropTypes from "prop-types";
+import moment from "moment";
+
 const TodoListOutdated = ({ todoList, onRemoveTodo, onImportantTodo }) => {
   const tableRows = todoList.map((item) => {
-    if (
-      Math.ceil(
-        (Date.parse(item.fields.DueDate) - new Date()) / (1000 * 3600 * 24)
-      ) < 0
-    ) {
+    if (moment(item.fields.DueDate).diff(moment(), "days") < 0) {
       return (
         <TodoListItem
           key={item.id}
@@ -38,6 +36,7 @@ const TodoListOutdated = ({ todoList, onRemoveTodo, onImportantTodo }) => {
 TodoListOutdated.propTypes = {
   todoList: PropTypes.array,
   onRemoveTodo: PropTypes.func,
+  onImportantTodo: PropTypes.func,
 };
 
 export default TodoListOutdated;
